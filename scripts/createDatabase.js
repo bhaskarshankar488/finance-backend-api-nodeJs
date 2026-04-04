@@ -14,7 +14,7 @@ export const createDatabase = async () => {
     await connection.query(
       `CREATE DATABASE IF NOT EXISTS \`${process.env.DB_NAME}\`;`
     );
-
+    
     console.log(" Database ready");
     await connection.end();
 

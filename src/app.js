@@ -1,12 +1,13 @@
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
 import morgan from "morgan";
-
-dotenv.config();
+import userRoutes from "./routes/user.routes.js";
+import loginRoutes from "./routes/auth.routes.js";
+import { sessionMiddleware } from "./config/session.js";
 
 const app = express();
 
+app.use(sessionMiddleware);
 // Middlewares
 app.use(express.json());
 app.use(cors());
@@ -14,12 +15,11 @@ app.use(morgan("dev"));
 
 // Test route
 app.get("/", (req, res) => {
-  res.send("Finance Backend Running 🚀");
+  res.send("API is running 🚀");
 });
 
-// Server
-const PORT = process.env.PORT || 5000;
+// Routes
+app.use("/api", userRoutes);
+app.use("/api", loginRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+export default app;

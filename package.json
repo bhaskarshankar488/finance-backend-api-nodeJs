@@ -5,18 +5,22 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/app.js",
-    "setup": "node src/setup.js",
-    "dev": "nodemon src/app.js",
-    "migrate": "sequelize-cli db:migrate"
+    "setup": "node scripts/setup.js",
+    "dev": "nodemon src/server.js",
+    "migrate": "sequelize-cli db:migrate",
+    "reset": "npx sequelize-cli db:migrate:undo:all --config src/config/config.cjs && node scripts/setup.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.0",
     "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "joi": "^18.1.2",
     "morgan": "^1.10.1",
     "mysql2": "^3.20.0",
     "sequelize": "^6.37.8"
