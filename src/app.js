@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-app.use("/api", userRoutes);
-app.use("/api", loginRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/auth", loginRoutes);
 
 export default app;

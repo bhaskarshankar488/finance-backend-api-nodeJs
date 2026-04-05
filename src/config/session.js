@@ -1,11 +1,24 @@
 import session from "express-session";
+import SequelizeStore from "connect-session-sequelize";
+import sequelize from "../config/db.js";
+
+const SequelizeStoreInit = SequelizeStore(session.Store);
+
+const store = new SequelizeStoreInit({
+  db: sequelize,
+});
 
 export const sessionMiddleware = session({
-  secret: "super_secret_key",
+  secret: "mysecretkey",
   resave: false,
   saveUninitialized: false,
+  store: store, // ✅ PERSISTENT
   cookie: {
-    secure: false, // true in production (https)
-    maxAge: 1000 * 60 * 60 // 1 hour
-  }
+    secure: false,
+    httpOnly: true,
+    sameSite: "lax",
+    maxAge: 1000 * 60 * 60,
+  },
 });
+
+store.sync();
