@@ -3,6 +3,8 @@ import cors from "cors";
 import morgan from "morgan";
 import userRoutes from "./routes/user.routes.js";
 import loginRoutes from "./routes/auth.routes.js";
+import finRoutes from "./routes/finance.routes.js";
+
 import { sessionMiddleware } from "./config/session.js";
 
 const app = express();
@@ -10,7 +12,10 @@ const app = express();
 app.use(sessionMiddleware);
 // Middlewares
 app.use(express.json());
-app.use(cors());
+
+app.use(cors({ // or your frontend URL
+  credentials: true
+}));
 app.use(morgan("dev"));
 
 // Test route
@@ -21,5 +26,6 @@ app.get("/", (req, res) => {
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/auth", loginRoutes);
+app.use("/api/finance", finRoutes);
 
 export default app;

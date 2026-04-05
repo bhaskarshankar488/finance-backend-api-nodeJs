@@ -1,6 +1,6 @@
 import { createDatabase } from "./createDatabase.js";
 import { execSync } from "child_process";
-import sequelize from "../src/config/db.js";
+import {sequelize} from "../src/config/db.js";
 import { seedAdmin } from "./seedAdmin.js"; 
 
 const runSetup = async () => {

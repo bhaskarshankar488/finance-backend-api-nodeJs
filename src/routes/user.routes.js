@@ -10,7 +10,7 @@ import {
 } from "../controllers/user.controller.js";
 import { validate } from "../middlewares/validate.middleware.js";
 import { isAuthenticated } from "../middlewares/auth.middleware.js";
-import { authorizeRoles } from "../middlewares/role.middleware.js";
+import { checkPermission } from "../middlewares/permission.middleware.js";
 
 import { createUserSchema ,
   updateUserSchema,
@@ -22,63 +22,66 @@ import { createUserSchema ,
 
 const router = express.Router();
 
-// POST /api/users
+
+// CREATE USER
 router.post(
   "/createuser",
   isAuthenticated,
-  authorizeRoles("admin"),
-  validate(createUserSchema), // 👈 validator middleware
+  checkPermission("users", "create"),
+  validate(createUserSchema),
   createUser
 );
 
-// Update user details (Admin only)
+// UPDATE USER
 router.put(
   "/:id",
   isAuthenticated,
-  authorizeRoles("admin"),
+  checkPermission("users", "update"),
   validate(updateUserSchema),
   updateUser
 );
 
-// Update role only
+// UPDATE ROLE
 router.patch(
   "/:id/role",
   isAuthenticated,
-  authorizeRoles("admin"),
+  checkPermission("users", "update"),
   validate(updateRoleSchema),
   updateUserRole
 );
 
-// Delete user
+// DELETE USER
 router.delete(
   "/:id",
   isAuthenticated,
-  authorizeRoles("admin"),
+  checkPermission("users", "delete"),
   deleteUser
 );
+
+// STATUS
 router.patch(
   "/:id/status",
   isAuthenticated,
-  authorizeRoles("admin"),
+  checkPermission("users", "update"),
   validate(updateStatusSchema),
   updateUserStatus
 );
 
+// GET ONE
 router.get(
   "/users/:id",
   isAuthenticated,
-  authorizeRoles("admin"),
+  checkPermission("users", "read"),
   validate(getUserByIdSchema, "params"),
   getUserById
 );
 
+// GET ALL
 router.get(
   "/users",
   isAuthenticated,
-  authorizeRoles("admin"),
+  checkPermission("users", "read"),
   getUsers
 );
-
-
 
 export default router;
