@@ -69,7 +69,7 @@ router.patch(
 
 // GET ONE
 router.get(
-  "/users/:id",
+  "/:id",
   isAuthenticated,
   checkPermission("users", "read"),
   validate(getUserByIdSchema, "params"),
@@ -78,7 +78,7 @@ router.get(
 
 // GET ALL
 router.get(
-  "/users",
+  "/",
   isAuthenticated,
   checkPermission("users", "read"),
   getUsers
